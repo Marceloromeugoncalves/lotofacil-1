@@ -1,0 +1,296 @@
+function max(txarea, total) { 
+	tam = txarea.value.length; 
+	str=""; 
+	str=str+tam; 
+	document.getElementById('Digitado').innerHTML = str; 
+	document.getElementById('Restante').innerHTML = total - str; 
+	if (tam > total){  
+	   aux = txarea.value; 
+	   txarea.value = aux.substring(0,total); 
+	   document.getElementById('Digitado').innerHTML = total 
+	   document.getElementById('Restante').innerHTML = 0 
+	} 
+}
+
+$(document).ready(function(){
+	
+	$('.menu-resp').click(function(){
+		$('.menu ul').slideToggle();
+	});
+	
+	$('.menu-anchor').click(function(){
+		$('.menu ul').slideToggle();
+	});
+	
+	$(window).resize(function(){
+		if($(window).width() > 480){
+			$('.menu ul').removeAttr('style');
+		}
+	})
+	
+	$('#MainMenuCt').affix({
+	offset: { 
+       top: 44 
+    }
+	});
+	
+	$(window).scroll(function(){
+    if($(this).scrollTop() > 450){
+      $('#toTop').fadeIn();
+    } else{
+      $('#toTop').fadeOut();
+    }
+	});
+	$("#toTop").click(function(){
+	$('html ,body').animate({scrollTop : 0},800);
+	});
+	
+	
+	
+	$(window).scroll(function(){
+    if($(this).scrollTop() > 450){
+      $('#toTop').fadeIn();
+    } else{
+      $('#toTop').fadeOut();
+    }
+	});
+	$("#toTop").click(function(){
+	$('html ,body').animate({scrollTop : 0},800);
+	});
+	
+	height = $(document).height();
+	if(height > 1500){
+		$("#toTop").css({"bottom": "3.3rem"});
+		$(window).scroll(function(){
+		if($(this).scrollTop() > 100){
+		  $('#toDw').fadeIn();
+		} else {
+		  $('#toDw').fadeOut();
+		}
+		});
+		$("#toDw").click(function(){
+		$('html ,body').animate({scrollTop: height},800);
+		});
+	}
+})
+/*
+$(".lotoLF").click(function(){
+	$(this).toggleClass('lotoBg');
+	var dez = getDez();
+	var len = dez.length;
+
+	if(len <= max){
+		$("#aviso").html("");
+		$("#aviso").removeClass("alert alert-warning");
+		$("#aviso").removeClass("alert alert-danger");
+		if(len >= min){
+		$("#aviso").html("Seu Jogo já possui "+(len)+" números");
+		$("#aviso").addClass("alert alert-warning");
+		}
+		var sum = getSum();
+		
+		if(sum[2] >= 6 & sum[2] <= 8 & sum[3] >= 7 & sum[3] <= 9)
+		parImpar = "<b>Par:"+sum[2]+" Impar:"+sum[3]+"</b>";
+		else
+		parImpar = "Par:"+sum[2]+" Impar:"+sum[3]+"";
+		
+		if(sum[1] >= 160 & sum[1] <= 220)
+		soma = "<b>Soma:"+sum[1]+"</b>";
+		else
+		soma = "Soma:"+sum[1]+"";
+		res = parImpar+" | "+soma;
+		$("#parImpar").html(res);
+		$("#lotoTx").html(res);
+	}
+	else{
+		$("#aviso").html("Seu Jogo já possui "+(len-1)+" números");
+		$("#aviso").addClass("alert alert-warning");
+		$(this).toggleClass('lotoBg');
+	}
+});
+*/
+$(".lotoLF").click(function(){
+	$(this).toggleClass('lotoBg');
+	var dez = getDez();
+	var len = dez.length;
+
+	$("#aviso").html("");
+	$("#aviso").removeClass("alert alert-warning");
+	$("#aviso").removeClass("alert alert-danger");
+	$("#aviso").removeClass("alert alert-success");
+	
+	if(len < min)
+	$("#aviso").addClass("alert alert-warning");
+	else if(len >= min & len <= max)
+	$("#aviso").addClass("alert alert-success");
+	else
+	$("#aviso").addClass("alert alert-warning");
+	
+	$("#aviso").html("Seu Jogo já possui "+(len)+" números");
+	
+	var sum = getSum();
+	
+	if(sum[2] >= 6 & sum[2] <= 8 & sum[3] >= 7 & sum[3] <= 9)
+	parImpar = "<b>Par:"+sum[2]+" Impar:"+sum[3]+"</b>";
+	else
+	parImpar = "Par:"+sum[2]+" Impar:"+sum[3]+"";
+	
+	if(sum[1] >= 160 & sum[1] <= 220)
+	soma = "<b>Soma:"+sum[1]+"</b>";
+	else
+	soma = "Soma:"+sum[1]+"";
+	res = parImpar+" | "+soma;
+	$("#parImpar").html(res);
+	$("#lotoTx").html(res);	
+});
+
+/*
+$(".lotoDj").click(function(){
+	$(this).toggleClass('lotoBg');
+	var dez = getDez();
+	var len = dez.length;
+
+	if(len <= max){
+		$("#aviso").html("");
+		$("#aviso").removeClass("alert alert-warning");
+		$("#aviso").removeClass("alert alert-danger");
+		$("#aviso").removeClass("alert alert-success");
+		if(len >= min){
+		$("#aviso").html("Seu Jogo já possui "+(len)+" números");
+		$("#aviso").addClass("alert alert-warning");
+		}
+		getLabel();
+	}
+	else{
+		$("#aviso").html("Seu Jogo já possui "+(len-1)+" números");
+		$("#aviso").addClass("alert alert-warning");
+		$(this).toggleClass('lotoBg');
+	}
+});
+*/
+
+$(".lotoDj").click(function(){
+	$(this).toggleClass('lotoBg');
+	var dez = getDez();
+	var len = dez.length;
+	
+	$("#aviso").html("");
+	$("#aviso").removeClass("alert alert-warning");
+	$("#aviso").removeClass("alert alert-danger");
+	$("#aviso").removeClass("alert alert-success");
+	
+	if(len < min)
+	$("#aviso").addClass("alert alert-warning");
+	else if(len >= min & len <= max)
+	$("#aviso").addClass("alert alert-success");
+	else
+	$("#aviso").addClass("alert alert-warning");
+	
+	$("#aviso").html("Seu Jogo já possui "+(len)+" números");
+	
+	getLabel();
+	 
+});
+
+function getLabel(){
+	var sum = getSum();
+    res = "Dezenas:"+sum[0]+" &nbsp; | &nbsp; Soma:"+sum[1]+" &nbsp; | &nbsp; Par:"+sum[2]+" Impar:"+sum[3]+"";
+	$("#parImpar").html(res);
+	$("#lotoTx").html(res);
+}
+
+function getSum(){
+	var result = [];
+	var len = 0;
+	var sum = 0;
+	var pair = 0;
+	var odd = 0;
+	$('.lotoBg').each(function(e){
+		num = parseInt($(this).html());
+		sum = sum+num;
+		if(num%2==0) pair++; else odd++;
+		len++;
+	});
+	result[0] = len;
+	result[1] = sum;
+	result[2] = pair;
+	result[3] = odd;
+    return result;
+}
+
+function getSumOld(){
+	var pair = 0;
+	var odd = 0;
+	var sum = 0;
+	var len = 0;
+	$('.lotoBg').each(function(e){
+		num = parseInt($(this).html());
+		sum = sum+num;
+		if(num%2==0) pair++; else odd++;
+		len++;
+	});
+	
+	if(pair >= 6 & pair <= 8 & odd >= 7 & odd <= 9)
+	parImpar = "<b>Par:"+pair+" Impar:"+odd+"</b>";
+	else
+	parImpar = "Par:"+pair+" Impar:"+odd+"";
+	
+	if(sum >= 160 & sum <= 220)
+	soma = "<b>Soma:"+sum+"</b>";
+	else
+	soma = "Soma:"+sum+"";
+	
+    res = parImpar+" | "+soma;
+	$("#parImpar").html(res);
+}
+
+function getDez(){
+	var dez = [];
+	$('.lotoBg').each(function(e){
+	dez.push(parseInt($(this).html()));
+	});
+    return dez;
+}
+
+function clean(){
+	$("#dialog-txt" ).html("Deseja limpar este Jogo?");
+	$(function() {
+	$("#dialog-confirm" ).dialog({
+	  resizable: false,
+	  modal: true,
+	  buttons: {
+		"SIM": function() {
+		$( this ).dialog( "close" );
+		$(".lotoDz").removeClass('lotoBg');
+		$("#meujogo").val('');
+		$("#aviso").html("");  
+		$("#aviso").removeClass("alert alert-warning");
+		$("#aviso").removeClass("alert alert-danger");
+		$("#aviso").removeClass("alert alert-success");
+		$("#conf-r-2").html("");
+		$("#lotoTx").html("");
+		$("#act1").html("0");
+		$("#act2").html("0");
+		$("#acz").html("");
+		$("#acp").html("");
+		
+		$("#parImpar").html("");
+		$("#confere-resultado-1").html("Resultado: 0");
+		$("#confere-resultado-2").html("");
+		$("#confere-col-3").html("Total de acertos: <b>0</b>");
+		$("#confere-aux").html("");
+		window.history.replaceState("object", "MazuSoft", '?');
+		},
+		"NÃO": function() {
+		  $( this ).dialog( "close" );
+		}
+	  }
+	});});
+	
+}
+
+$('#simulador').click(function(){
+	$('#ct-simulador').toggle(500);
+});
+
+/*$('#MainMenu').affix({});*/

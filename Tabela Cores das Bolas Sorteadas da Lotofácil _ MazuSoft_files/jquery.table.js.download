@@ -1,0 +1,28 @@
+//$(document).ready(function() { $("table").tablesorter({headers: { }})});
+$(function(){
+   $("#analise1 tbody tr:even").addClass("eventr");
+   $("#analise2 tbody tr:even").addClass("eventr");
+   $("#analise3 tbody tr:even").addClass("eventr");
+   $("#analise1 tbody tr:odd").addClass("oddtr");
+   $("#analise2 tbody tr:odd").addClass("oddtr");
+   $("#analise3 tbody tr:odd").addClass("oddtr");
+   //handle the mouseover , mouseout and click event
+   $("#analise1 tbody tr").mouseover(function() {
+	$(this).addClass("trover");}).mouseout(function() {
+		$(this).removeClass("trover");
+	}).click(function() {
+		$(this).toggleClass("trclick");
+	});
+   $("#analise2 tbody tr").mouseover(function() {
+	$(this).addClass("trover");}).mouseout(function() {
+		$(this).removeClass("trover");
+	}).click(function() {
+		$(this).toggleClass("trclick");
+	});
+	$("#analise3 tbody tr").mouseover(function() {
+	$(this).addClass("trover");}).mouseout(function() {
+		$(this).removeClass("trover");
+	}).click(function() {
+		$(this).toggleClass("trclick");
+	});   
+});
