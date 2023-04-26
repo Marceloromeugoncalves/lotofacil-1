@@ -10,22 +10,31 @@ response = requests.get(url='https://asloterias.com.br/lista-de-resultados-da-lo
 
 if response.status_code == 200:
     soup = BeautifulSoup(response.content, 'html.parser')
+    
+    # Texto (com as tags HTML).
     texto = str(soup).strip()
-
+    
+    # Expressão Regular.
     padrao = r'<strong>(\d+)<\/strong>\s*-\s*(\d{2}\/\d{2}\/\d{4})\s*-\s*((?:\d+\s+)+\d+)'
+
+    # Obtenção das correspondências.
     correspondencias = re.findall(padrao, texto)
 
     dados = []
 
     for correspondencia in correspondencias:
+        # Número do sorteio.
         numero_sorteio = correspondencia[0]
+        # Data do sorteio.
         data_sorteio = correspondencia[1]
+        # Lista com os números sorteados.
         numeros_sorteados = correspondencia[2].split(' ')
 
         print(f'numero_sorteio: {numero_sorteio}')
         print(f'data_sorteio: {data_sorteio}')
         print(f'numeros_sorteados: {numeros_sorteados}')
         
+        # Obtenção dos números sorteados. Da bola 1 até a 15.
         bola1 = numeros_sorteados[0]
         bola2 = numeros_sorteados[1]
         bola3 = numeros_sorteados[2]
@@ -41,7 +50,8 @@ if response.status_code == 200:
         bola13 = numeros_sorteados[12]
         bola14 = numeros_sorteados[13]
         bola15 = numeros_sorteados[14]
-
+        
+        # Montagem dos dados.
         dados.append({
             'numero_sorteio': numero_sorteio,
             'data_sorteio': data_sorteio,
@@ -63,9 +73,12 @@ if response.status_code == 200:
         })
 
         print(100 * '-')
-
+    
+    # Obtenção do DataFrame a partir dos dados.
     df = pd.DataFrame(dados)
     print(df)
+
+    # Salva o DataFrame na tabela resultados do banco de dados.
     df.to_sql('resultados', conn, if_exists='replace')
 
     print(f'Fim da extração dos resultados.')
