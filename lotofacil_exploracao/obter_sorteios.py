@@ -1,8 +1,10 @@
 import re
+import sqlite3
 import requests
+import pandas as pd
 from bs4 import BeautifulSoup
 
-# https://asloterias.com.br/lista-de-resultados-da-lotofacil
+conn = sqlite3.connect('./dados/lotofacil.db')
 
 response = requests.get(url='https://asloterias.com.br/lista-de-resultados-da-lotofacil')
 
@@ -12,6 +14,8 @@ if response.status_code == 200:
 
     padrao = r'<strong>(\d+)<\/strong>\s*-\s*(\d{2}\/\d{2}\/\d{4})\s*-\s*((?:\d+\s+)+\d+)'
     correspondencias = re.findall(padrao, texto)
+
+    dados = []
 
     for correspondencia in correspondencias:
         numero_sorteio = correspondencia[0]
@@ -38,5 +42,30 @@ if response.status_code == 200:
         bola14 = numeros_sorteados[13]
         bola15 = numeros_sorteados[14]
 
+        dados.append({
+            'numero_sorteio': numero_sorteio,
+            'data_sorteio': data_sorteio,
+            'bola1': bola1,
+            'bola2': bola2,
+            'bola3': bola3,
+            'bola4': bola4,
+            'bola5': bola5,
+            'bola6': bola6,
+            'bola7': bola7,
+            'bola8': bola8,
+            'bola9': bola9,
+            'bola10': bola10,
+            'bola11': bola11,
+            'bola12': bola12,
+            'bola13': bola13,
+            'bola14': bola14,
+            'bola15': bola15,
+        })
+
         print(100 * '-')
 
+    df = pd.DataFrame(dados)
+    print(df)
+    df.to_sql('resultados', conn, if_exists='replace')
+
+    print(f'Fim da extração dos resultados.')
